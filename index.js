@@ -197,11 +197,11 @@ module.exports.joinNetwork = function (peers, cb) {
     // expose the cluster as a Levelup-compatible database
     const skiffdb = skiff.levelup()
     skiff.on('leader', function (results) {
-        logger.log('info', 'I am leader')
+        logger.log('info', 'Collabor8: I am leader')
     })
     skiff.on('new state', function (results) {
         if (results === 'New State: follower') {
-            logger.log('info', 'New State: ' + results)
+            logger.log('info', 'Collabor8: I follow')
         }
     })
     skiff.start(err => {
