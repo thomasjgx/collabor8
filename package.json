@@ -15,7 +15,7 @@
     "distributed",
     "riak"
   ],
-  "author": "Thomas Juma (thomasjgx@gmail.com)",
+  "author": "Thomas Juma <thomasjgx@gmail.com> (http://www.campfossa.org/tomasuij)",
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/tomasuij/collabor8/issues"
