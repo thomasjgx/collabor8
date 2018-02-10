@@ -3,21 +3,21 @@ var Riak = require('basho-riak-client')
 var Ip = require('ip')
 const collabor8 = require('../index')
 
-describe('getNodeSettings function: get current machine id, ip address and port number', function () {
+describe('getNode function: get current machine id, ip address and port number', function () {
   it('should have a machine_id as a non-empty string', function () {
-    assert.equal(collabor8.getNodeSettings().machine_id.length > 0, true, 'Empty machine_id found')
+    assert.equal(collabor8.getNode().machine_id.length > 0, true, 'Empty machine_id found')
   })
   it('should have a ip_address as a non-empty string', function () {
-    assert.equal(collabor8.getNodeSettings().ip_address.length > 0, true, 'Empty ip_address found')
+    assert.equal(collabor8.getNode().ip_address.length > 0, true, 'Empty ip_address found')
   })
   it('should have a port as an integer', function () {
-    assert.equal(collabor8.getNodeSettings().port > 0, true, 'Empty port found')
+    assert.equal(collabor8.getNode().port > 0, true, 'Empty port found')
   })
 })
 
 describe('updateNodeSettings function: Save the current machine id, ip address and port number on a riak node', function () {
   it('callback should return true', function (done) {
-    collabor8.updateNodeSettings( function (result) {
+    collabor8.updateNode( function (result) {
       if (result === true) {
         done()
       } else {
@@ -50,7 +50,7 @@ describe('updateNodeSettings function: Save the current machine id, ip address a
                   done('Machines key not found')
                 } else {
                   rslt.map.sets.devices.forEach( function (device) {
-                    if (collabor8.getNodeSettings().machine_id === device) {
+                    if (collabor8.getNode().machine_id === device) {
                       done()
                     }
                   })
@@ -77,7 +77,7 @@ describe('updateNodeSettings function: Save the current machine id, ip address a
             var options = {
               bucketType: 'consensus',
               bucket: 'consensus',
-              key: collabor8.getNodeSettings().machine_id
+              key: collabor8.getNode().machine_id
             }
             client.fetchMap(options, function (err, rslt) {
               if (err) {
@@ -110,7 +110,7 @@ describe('updateNodeSettings function: Save the current machine id, ip address a
             var options = {
               bucketType: 'consensus',
               bucket: 'consensus',
-              key: collabor8.getNodeSettings().machine_id
+              key: collabor8.getNode().machine_id
             }
             client.fetchMap(options, function (err, rslt) {
               if (err) {

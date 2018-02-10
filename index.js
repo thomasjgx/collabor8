@@ -16,7 +16,7 @@ var logger = new (Winston.Logger)({
 *
 * @return {Object}
 */
-module.exports.getNodeSettings = function () {
+module.exports.getNode = function () {
     return {
         machine_id: NodeMachine.machineIdSync({original: true}),
         ip_address: Ip.address(),
@@ -29,8 +29,8 @@ module.exports.getNodeSettings = function () {
 *
 * @return {Boolean}
 */
-module.exports.updateNodeSettings = function (cb) {
-    const nodeSettings = this.getNodeSettings()
+module.exports.updateNode = function (cb) {
+    const nodeSettings = this.getNode()
     var mapOp = null
     var client = new Riak.Client(['127.0.0.1'], function (err, c) {
         if (err) {
@@ -143,7 +143,7 @@ module.exports.getPeers = function (cb) {
                             var peers = []
                             var getPeersFunctions = []
                             rslt.map.sets.devices.forEach( function (device) {
-                                if (device !== self.getNodeSettings().machine_id) {
+                                if (device !== self.getNode().machine_id) {
                                     getPeersFunctions.push(function (asyncCb) {
                                         options = {
                                             bucketType: 'consensus',
@@ -155,7 +155,7 @@ module.exports.getPeers = function (cb) {
                                                 logger.log('error', err)
                                             } else {
                                                 if (rsltDevice.notFound !== true) {
-                                                    asyncCb(null, '/ip4/' + rsltDevice.map.registers.ip_address.toString() + '/tcp/' + self.getNodeSettings().port)
+                                                    asyncCb(null, '/ip4/' + rsltDevice.map.registers.ip_address.toString() + '/tcp/' + self.getNode().port)
                                                 } else {
                                                     asyncCb(null, null)
                                                 }
