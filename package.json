@@ -4,7 +4,7 @@
   "description": "A simple consensus script for distributed systems relying on riak as a data store",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "node_modules/mocha/bin/mocha ./tests"
   },
   "repository": {
     "type": "git",
@@ -20,5 +20,15 @@
   "bugs": {
     "url": "https://github.com/tomasuij/collabor8/issues"
   },
-  "homepage": "https://github.com/tomasuij/collabor8#readme"
+  "homepage": "https://github.com/tomasuij/collabor8#readme",
+  "dependencies": {
+    "basho-riak-client": "^2.4.0",
+    "ip": "^1.1.5",
+    "mocha": "^5.0.0",
+    "node-machine-id": "^1.1.10",
+    "winston": "^2.4.0"
+  },
+  "devDependencies": {
+    "assert": "^1.4.1"
+  }
 }
