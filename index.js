@@ -46,7 +46,7 @@ module.exports.updateNodeSettings = function (cb) {
                         bucket: 'consensus',
                         key: 'machines'
                     }
-                    client.fetchMap(options, function (err, rsltDevices) {
+                    client.fetchMap(options, function (err, rslt) {
                         if (err) {
                           logger.log('error', err)
                           cb(false)
