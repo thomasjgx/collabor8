@@ -1,0 +1,24 @@
+{
+  "name": "collabor8",
+  "version": "0.0.1",
+  "description": "A simple consensus script for distributed systems relying on riak as a data store",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/tomasuij/collabor8.git"
+  },
+  "keywords": [
+    "consensus",
+    "distributed",
+    "riak"
+  ],
+  "author": "Thomas Juma (thomasjgx@gmail.com)",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/tomasuij/collabor8/issues"
+  },
+  "homepage": "https://github.com/tomasuij/collabor8#readme"
+}
