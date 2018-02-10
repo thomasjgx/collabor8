@@ -134,3 +134,60 @@ describe('updateNodeSettings function: Save the current machine id, ip address a
     })
   })
 })
+
+describe('getPeers function: Returns the list of others computers in the cluster', function () {
+  it('It should return at least one peer', function (done) {
+    var client = new Riak.Client(['127.0.0.1'], function (err, c) {
+      if (err) {
+        logger.log('error', err)
+        done('Error: ' + err)
+      } else {
+        client.ping(function (err, rslt) {
+          if (err) {
+            logger.log('error', err)
+            done('Error: ' + err)
+          } else {
+            var mapOp = new Riak.Commands.CRDT.UpdateMap.MapOperation()
+            mapOp.addToSet('devices', Buffer.from('local-chai-test'))
+            options = {
+              bucketType: 'consensus',
+              bucket: 'consensus',
+              key: 'machines',
+              op: mapOp
+            }
+            client.updateMap(options, function (err, rslt) {
+                if (err) {
+                    logger.log('error', err)
+                    done('Error: ' + err)
+                } else {
+                  mapOp = new Riak.Commands.CRDT.UpdateMap.MapOperation()
+                  mapOp.setRegister('ip_address', Buffer.from('192.168.0.1'))
+                  mapOp.setRegister('port', Buffer.from('9900'))
+                  options = {
+                      bucketType: 'consensus',
+                      bucket: 'consensus',
+                      key: 'local-chai-test',
+                      op: mapOp
+                  }
+                  client.updateMap(options, function (err, rslt) {
+                      if (err) {
+                          logger.log('error', err)
+                          done('Error: ' + err)
+                      } else {
+                        collabor8.getPeers( function (peers) {
+                          if (peers.length > 0) {
+                            done()
+                          } else {
+                            done('No peers found')
+                          }
+                        })
+                      }
+                  })
+                }
+            })
+          }
+        })
+      }
+    })
+  })
+})

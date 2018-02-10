@@ -22,6 +22,7 @@
   },
   "homepage": "https://github.com/tomasuij/collabor8#readme",
   "dependencies": {
+    "async": "^2.6.0",
     "basho-riak-client": "^2.4.0",
     "ip": "^1.1.5",
     "mocha": "^5.0.0",
