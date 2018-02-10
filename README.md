@@ -14,7 +14,25 @@ riak-admin bucket-type activate consensus
 Ensure that all riak nodes in the network are part of the same cluster i.e riak-admin cluster join riak@-master-node-
 Ensure riak master node as planned and committed the riak nodes
 
-### How to run
-'''
-node index.js
-'''
+### How to use
+Add node details to riak node
+``` 
+Collabor8.updateNode( function (result) {
+  if (result === true) {
+    // We have updated riak with details of this computer.
+    // We do this with other computers so that we create a sort of manifest of all computers to join the cluster
+  }
+})
+```
+
+Join a cluster
+``` 
+Collabor8.getPeers( function (peers) {
+      Collabor8.joinNetwork( peers, function (skiff, skiffdb, connected) {
+        if (connected === true) {
+          // We are connect to the cluster. 
+          // Use skiff to do things as leader. Check skiff npm module for details
+        }
+      })
+    })
+``` 
