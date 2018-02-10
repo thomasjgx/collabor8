@@ -191,3 +191,17 @@ describe('getPeers function: Returns the list of others computers in the cluster
     })
   })
 })
+
+describe('joinNetwork function: Joins other peers in a network and forms a cluster with election protocols', function () {
+  it('Should return true when joined successfully', function (done) {
+    Collabor8.getPeers( function (peers) {
+      Collabor8.joinNetwork( peers, function (skiff, skiffdb, connected) {
+        if (connected === true) {
+          done()
+        } else {
+          done('Unable to join cluster')
+        }
+      })
+    })
+  })
+})

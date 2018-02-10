@@ -1,8 +1,10 @@
 const NodeMachine = require('node-machine-id')
 const Ip = require('ip')
-var Winston = require('winston')
-var Riak = require('basho-riak-client')
-var Async = require('async')
+const Winston = require('winston')
+const Riak = require('basho-riak-client')
+const Async = require('async')
+const Skiff = require('skiff')
+const Memdown = require('memdown')
 
 // Setup the logger
 var logger = new (Winston.Logger)({
@@ -177,6 +179,37 @@ module.exports.getPeers = function (cb) {
                     })
                 }
             })
+        }
+    })
+}
+
+/**
+* Join the other peers in the network
+*
+* @return {boolean}
+*/
+module.exports.joinNetwork = function (peers, cb) {
+    options = {
+        db: Memdown,
+        peers: peers
+    }
+    const skiff = Skiff('/ip4/' + this.getNode().ip_address + '/tcp/19291', options)
+    // expose the cluster as a Levelup-compatible database
+    const skiffdb = skiff.levelup()
+    skiff.on('leader', function (results) {
+        logger.log('info', 'I am leader')
+    })
+    skiff.on('new state', function (results) {
+        if (results === 'New State: follower') {
+            logger.log('info', 'New State: ' + results)
+        }
+    })
+    skiff.start(err => {
+        if (err) {
+            logger.info('error', 'Error starting skiff node: ' + err.message)
+            cb(skiff, skiffdb, false)
+        } else {
+            cb(skiff, skiffdb, true)
         }
     })
 }
