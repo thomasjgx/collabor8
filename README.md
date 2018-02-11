@@ -8,6 +8,7 @@ It still needs you to do the work of configuring riak nodes for each computer.
 
 ### Configuring riak on the master or the first computer to be setup
 riak-admin bucket-type create consensus '{"props":{"datatype":"map"}}' 
+
 riak-admin bucket-type activate consensus
 
 ### Things to do
