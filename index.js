@@ -80,8 +80,8 @@ module.exports.updateNode = function (cb) {
                     }
                     riakClient.updateMap(options, function (err, rslt) {
                         if (err) {
-                        logger.log('error', err)
-                        cb(false)
+                            logger.log('error', err)
+                            cb(false)
                         } else {
                         mapOp = new Riak.Commands.CRDT.UpdateMap.MapOperation()
                         mapOp.setRegister('ip_address', Buffer.from(nodeSettings.ip_address))
