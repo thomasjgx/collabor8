@@ -8,11 +8,12 @@ It still needs you to do the work of configuring riak nodes for each computer.
 
 ### Configuring riak on the master or the first computer to be setup
 riak-admin bucket-type create consensus '{"props":{"datatype":"map"}}'
+
 riak-admin bucket-type activate consensus
 
 ### Things to do
 Ensure that all riak nodes in the network are part of the same cluster i.e riak-admin cluster join riak@-master-node-
-Ensure riak master node as planned and committed the riak nodes
+Ensure riak master node has planned and committed the riak nodes
 
 ### How to use
 Add node details to riak node
@@ -28,10 +29,21 @@ Collabor8.updateNode( function (result) {
 Join a cluster
 ``` 
 Collabor8.getPeers( function (peers) {
-      Collabor8.joinNetwork( peers, function (skiff, skiffdb, connected) {
+      Collabor8.joinNetwork( peers, function (skiff, skiffDb, riakClient, connected) {
         if (connected === true) {
-          // We are connect to the cluster. 
-          // Use skiff to do things as leader. Check skiff npm module for details
+          // We are connected to the cluster. 
+          if (skiff._node._state.name === 'leader') {
+            // We can do stuff as leader e.g. We can only update the skiffDb key/value store as a leader.
+            // If you try as a follower it will fail
+          }
+          // We can use the riakClient object to update the riak key/value store. See basho-riak-client npm module for more details
+          riakClient.ping(function (err, rslt) {
+            if (err) {
+              console.log('Riak node is down')
+            } else {
+              console.log('Riak node is up. We can update riak')
+            }
+          })
         }
       })
     })
