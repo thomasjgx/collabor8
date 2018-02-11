@@ -7,8 +7,7 @@ It may not work well for general use cases.
 It still needs you to do the work of configuring riak nodes for each computer.
 
 ### Configuring riak on the master or the first computer to be setup
-riak-admin bucket-type create consensus '{"props":{"datatype":"map"}}'
-
+riak-admin bucket-type create consensus '{"props":{"datatype":"map"}}' 
 riak-admin bucket-type activate consensus
 
 ### Things to do
@@ -29,22 +28,24 @@ Collabor8.updateNode( function (result) {
 Join a cluster
 ``` 
 Collabor8.getPeers( function (peers) {
-      Collabor8.joinNetwork( peers, function (skiff, skiffDb, riakClient, connected) {
-        if (connected === true) {
-          // We are connected to the cluster. 
-          if (skiff._node._state.name === 'leader') {
-            // We can do stuff as leader e.g. We can only update the skiffDb key/value store as a leader.
-            // If you try as a follower it will fail
-          }
-          // We can use the riakClient object to update the riak key/value store. See basho-riak-client npm module for more details
-          riakClient.ping(function (err, rslt) {
-            if (err) {
-              console.log('Riak node is down')
-            } else {
-              console.log('Riak node is up. We can update riak')
-            }
-          })
+  Collabor8.joinNetwork( peers, function (skiff, riakClient, connected) {
+    if (connected === true) {
+      // We are connected to the cluster. 
+      if (skiff._node._state.name === 'leader') {
+        // We can do stuff as leader
+      }
+      if (skiff._node._state.name === 'follower') {
+        // We can do stuff as follower
+      }
+      // We can use the riakClient object to update the riak key/value store. See basho-riak-client npm module for more details
+      riakClient.ping(function (err, rslt) {
+        if (err) {
+          console.log('Riak node is down')
+        } else {
+          console.log('Riak node is up. We can update riak')
         }
       })
-    })
+    }
+  })
+})
 ``` 

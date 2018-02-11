@@ -1,6 +1,6 @@
 {
   "name": "collabor8",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "A simple consensus script for distributed systems relying on riak as a data store",
   "main": "index.js",
   "scripts": {

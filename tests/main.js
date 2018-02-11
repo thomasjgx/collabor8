@@ -195,7 +195,7 @@ describe('getPeers function: Returns the list of others computers in the cluster
 describe('joinNetwork function: Joins other peers in a network and forms a cluster with election protocols', function () {
   it('Should return true when joined successfully', function (done) {
     Collabor8.getPeers( function (peers) {
-      Collabor8.joinNetwork( peers, function (skiff, skiffdb, riakClient, connected) {
+      Collabor8.joinNetwork( peers, function (skiff, riakClient, connected) {
         if (connected === true) {
           riakClient.ping(function (err, rslt) {
             if (err) {

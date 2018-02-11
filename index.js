@@ -194,8 +194,7 @@ module.exports.joinNetwork = function (peers, cb) {
         peers: peers
     }
     const skiff = Skiff('/ip4/' + this.getNode().ip_address + '/tcp/19291', options)
-    // expose the cluster as a Levelup-compatible database
-    const skiffDb = skiff.levelup()
+    
     skiff.on('leader', function (results) {
         logger.log('info', 'Collabor8: I am leader')
     })
@@ -217,9 +216,9 @@ module.exports.joinNetwork = function (peers, cb) {
                     } else {
                         if (err) {
                             logger.info('error', 'Error starting skiff node: ' + err.message)
-                            cb(skiff, skiffDb, riakClient, false)
+                            cb(skiff, riakClient, false)
                         } else {
-                            cb(skiff, skiffDb, riakClient, true)
+                            cb(skiff, riakClient, true)
                         }
                     }
                 })
