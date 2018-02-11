@@ -83,23 +83,23 @@ module.exports.updateNode = function (cb) {
                             logger.log('error', err)
                             cb(false)
                         } else {
-                        mapOp = new Riak.Commands.CRDT.UpdateMap.MapOperation()
-                        mapOp.setRegister('ip_address', Buffer.from(nodeSettings.ip_address))
-                        mapOp.setRegister('port', Buffer.from(nodeSettings.port))
-                        options = {
-                            bucketType: 'consensus',
-                            bucket: 'consensus',
-                            key: nodeSettings.machine_id,
-                            op: mapOp
-                        }
-                        riakClient.updateMap(options, function (err, rslt) {
-                            if (err) {
-                                logger.log('error', err)
-                                cb(false)
-                            } else {
-                                cb(true)
+                            mapOp = new Riak.Commands.CRDT.UpdateMap.MapOperation()
+                            mapOp.setRegister('ip_address', Buffer.from(nodeSettings.ip_address))
+                            mapOp.setRegister('port', Buffer.from(nodeSettings.port))
+                            options = {
+                                bucketType: 'consensus',
+                                bucket: 'consensus',
+                                key: nodeSettings.machine_id,
+                                op: mapOp
                             }
-                        })
+                            riakClient.updateMap(options, function (err, rslt) {
+                                if (err) {
+                                    logger.log('error', err)
+                                    cb(false)
+                                } else {
+                                    cb(true)
+                                }
+                            })
                         }
                     })
                 } else {
