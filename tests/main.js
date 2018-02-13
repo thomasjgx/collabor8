@@ -49,12 +49,17 @@ describe('updateNodeSettings function: Save the current machine id, ip address a
                 if (rslt.notFound === true) {
                   done('Machines key not found')
                 } else {
+                  var found = false
                   rslt.map.sets.devices.forEach( function (device) {
-                    if (Collabor8.getNode().machine_id === device) {
-                      done()
+                    if (Collabor8.getNode().machine_id === device && found === false) {
+                      found = true
                     }
                   })
-                  done(false)
+                  if (found === true) {
+                    done()
+                  } else {
+                    done('Machine id not found')
+                  }
                 }
               }
             })
