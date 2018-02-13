@@ -45,7 +45,7 @@ module.exports.getNode = function () {
     return {
         machine_id: NodeMachine.machineIdSync({original: true}),
         ip_address: Ip.address(),
-        port: 9900
+        port: '9900'
     }
 }
 
